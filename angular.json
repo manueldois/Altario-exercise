@@ -94,8 +94,13 @@
           "options": {
             "browserTarget": "altario-exercise:build"
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "altario-exercise"
 }
