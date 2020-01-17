@@ -1,92 +1,35 @@
-@import '../vars.scss';
-
-div.viewport {
-  margin: auto;
-  max-width: 600px;
-}
+@import "../vars.scss";
 
 main {
-  border: 2px solid $primary;
-  border-radius: 0 10px 10px 10px;
-  padding: 10px;
+  margin: auto;
+  max-width: 600px;
+  padding: 20px 10px 5px 10px;
 }
 
 nav {
-  display: flex;
-  top: 2px;
-  position: relative;
+  background-color: $primary;
+  padding: 5px 0px;
 
-  > a {
-    margin: 0;
-    padding: 10px 30px;
-    text-decoration: none;
-    font-size: larger;
-    font-weight: bold;
-    border: 2px solid $primary;
-    border-bottom: none;
-    color: white;
-    background-color: $primary;
-
-    &:first-of-type {
-        border-radius: 10px 0 0 0;
-    }
-
-    &:last-of-type {
-      border-right: none;
-    }
-
-    &.active {
-      background-color: white;
-      color: $primary;
-    }
-  }
-
-  > div.s-curve {
-    width: 22px;
+  > ul {
+    margin: auto;
+    max-width: 600px;
     display: block;
-    position: relative;
+    list-style: none;
+    display: flex;
+    padding: 0 10px;
 
-    > div.top,
-    div.bottom {
-      position: absolute;
-      display: block;
-      width: 10px;
-      height: 50%;
-      border-top: 2px solid;
-      border-right: 2px solid;
-      border-radius: 0 10px 0 0;
-      border-color: $primary;
-    }
+    > a {
+      margin: 0;
+      padding: 10px 30px;
+      text-decoration: none;
+      font-size: larger;
+      font-weight: bold;
+      color: white;
 
-    > div.bottom {
-      transform: rotate(180deg);
-      bottom: 0;
-      right: 0;
-    }
-
-    > div.bck {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 50%;
-    }
-  }
-
-  > a:last-of-type.active ~ div.s-curve {
-    > div.top,
-    div.bck {
-      background: white;
-    }
-  }
-
-  > a:last-of-type:not(.active) ~ div.s-curve {
-    > div.top,
-    div.bck {
-      background: $primary;
-    }
-
-    > div.bottom {
-      background: white;
+      &.active {
+        background: white;
+        color: $primary;
+      }
     }
   }
 }
