@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { GeneratorPageComponent } from './pages/generator-page/generator-page.component';
 import { RouterModule, Routes } from '@angular/router';
+import { PaymentsPageComponent } from './pages/payments-page/payments-page.component';
 
 const routes: Routes = [
   { path: 'generator', component: GeneratorPageComponent },
@@ -14,7 +15,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    GeneratorPageComponent
+    GeneratorPageComponent,
+    PaymentsPageComponent
   ],
   imports: [
     BrowserModule,
