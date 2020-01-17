@@ -8,6 +8,7 @@ import { PaymentsPageComponent } from './pages/payments-page/payments-page.compo
 
 const routes: Routes = [
   { path: 'generator', component: GeneratorPageComponent },
+  { path: 'payments', component: PaymentsPageComponent },
   { path: '', redirectTo: '/generator', pathMatch: 'full' },
 ];
 
