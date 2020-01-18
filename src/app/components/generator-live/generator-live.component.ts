@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-generator-live',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./generator-live.component.scss']
 })
 export class GeneratorLiveComponent implements OnInit {
+  @Input() live: boolean
 
   constructor() { }
 

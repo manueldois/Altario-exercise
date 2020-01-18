@@ -1,4 +1,9 @@
-<div>
+<div *ngIf="live" class="live">
     <div class="circle"></div>
     <small>Live</small>
+</div>
+
+<div *ngIf="!live" class="not-live">
+    <div class="circle"></div>
+    <small>Off</small>
 </div>

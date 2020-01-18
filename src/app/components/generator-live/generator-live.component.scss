@@ -8,7 +8,6 @@ div {
         width: 10px;
         height: 10px;
         flex: 0 0 auto;
-        background-color: red;
         border-radius: 100%;
         margin-right: 5px;
     }
@@ -19,5 +18,18 @@ div {
         font-weight: bold;
         color: $gray1;
         letter-spacing: 1px;
+    }
+
+    &.live {
+        > div.circle{
+            background-color: red;
+
+        }
+    }
+
+    &.not-live {
+        > div.circle{
+            border: 1px solid $gray1;
+        }
     }
 }

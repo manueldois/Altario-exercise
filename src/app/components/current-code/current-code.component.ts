@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-current-code',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./current-code.component.scss']
 })
 export class CurrentCodeComponent implements OnInit {
+  @Input() code: string = ''
 
   constructor() { }
 

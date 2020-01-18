@@ -31,7 +31,7 @@
 <hr class="pulse-bar-ui" [style.width.%]="refresh_bar_size$ | async">
 
 <!-- Generator live UI  -->
-<app-generator-live></app-generator-live>
+<app-generator-live [live]="(generator_running$ | async)"></app-generator-live>
 
 <!-- Generated code output -->
-<app-current-code></app-current-code>
+<app-current-code [code]="(current_signature$ | async)?.code"></app-current-code>
