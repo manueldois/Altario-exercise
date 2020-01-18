@@ -5,5 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class PaymentsService {
 
-  constructor() { }
+  constructor() {
+    console.log('Created')
+  }
 }

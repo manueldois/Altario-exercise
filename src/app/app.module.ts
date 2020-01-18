@@ -7,6 +7,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PaymentsPageComponent } from './pages/payments-page/payments-page.component';
 import { CurrentCodeComponent } from './components/current-code/current-code.component';
 import { GeneratorLiveComponent } from './components/generator-live/generator-live.component';
+import { PaymentsService } from './services/payments.service';
+import { SignatureService } from './services/signature.service';
 
 const routes: Routes = [
   { path: 'generator', component: GeneratorPageComponent },
@@ -29,7 +31,6 @@ const routes: Routes = [
       routes,
     )
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

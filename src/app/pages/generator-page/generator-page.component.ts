@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SignatureService } from '../../services/signature.service'
 
 @Component({
   templateUrl: './generator-page.component.html',
@@ -6,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneratorPageComponent implements OnInit {
 
-  constructor() {
+  constructor(public signatureService: SignatureService) {
+  }
+  
+  ngOnInit(){
   }
 
   coordinates = [0,1,2,3,4,5,6,7,8,9]
@@ -24,7 +28,5 @@ export class GeneratorPageComponent implements OnInit {
   ]
 
 
-  ngOnInit() {
-  }
 
 }
