@@ -1,18 +1,33 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, interval, NEVER } from 'rxjs';
+import { map, mapTo, scan, startWith, switchMap, tap } from 'rxjs/operators';
 
-import {Matrix, Signature} from '../signature.interface';
+import { Matrix, Signature } from '../signature.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignatureService {
 
+  refresh_rate = 2000;
+  current_signature$ = new BehaviorSubject<Signature | null>(null)
+  generator_running$ = new BehaviorSubject(true);
+  generator_timer$ = this.generator_running$.pipe(
+    switchMap(running => running ? interval(20) : NEVER),
+    scan((acc, curr) => {
+      if(acc + 20 > this.refresh_rate) acc = 0
+      return acc + 20
+    }, 0),
+    map(x => this.refresh_rate - x)
+  )
+
 
   constructor() {
     console.log('Signature service running')
+    // this.generator_timer$.subscribe(next => console.log(next))
   }
 
-  generateMatrix(width: number, height: number, prefered_char?: string):Matrix {
+  makeMatrix(width: number, height: number, prefered_char?: string): Matrix {
 
     // Makes a list of random alphabetic characters. If char_to_exclude is passed, that char will not be in the list
     const makeListOfRandomCharsExcludingChar = (length, char_to_exclude?) => {
@@ -26,7 +41,7 @@ export class SignatureService {
     }
 
     // Makes a list of 20 different random ints from min to max
-    const makeListOf20DifferentRandomInts = (min = 0, max:number ) => {
+    const makeListOf20DifferentRandomInts = (min = 0, max: number) => {
       const list = []
       while (list.length < 20) {
         const random_int = this.randomInt(min, max)
@@ -56,9 +71,9 @@ export class SignatureService {
     matrix.data = makeListOfRandomCharsExcludingChar(width * height, prefered_char)
 
     // If there is a prefered char, put it at 20 random indexes in the matrix
-    if(prefered_char){
-        const indices_to_put_prefered_char = makeListOf20DifferentRandomInts(0,matrix.data.length)
-        matrix.data = putCharInArrayAtIndexes(matrix.data, indices_to_put_prefered_char, prefered_char)
+    if (prefered_char) {
+      const indices_to_put_prefered_char = makeListOf20DifferentRandomInts(0, matrix.data.length)
+      matrix.data = putCharInArrayAtIndexes(matrix.data, indices_to_put_prefered_char, prefered_char)
     }
 
     return matrix

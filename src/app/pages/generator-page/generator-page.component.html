@@ -6,11 +6,10 @@
     </label>
     <label class="checkbox">
         <span>Start Generator</span>
-        <input type="checkbox">
+        <input type="checkbox" [checked]='this.generator_running$ | async' (change)='onToggleGenerator()'>
         <div class="checkbox"></div>
     </label>
 </div>
-
 
 
 <!-- Signature matrix -->
@@ -28,7 +27,7 @@
 </table>
 
 <!-- Refresh pulse bar -->
-<hr class="pulse-bar-ui">
+<hr class="pulse-bar-ui" [style.width.%]="refresh_bar_size$ | async">
 
 <!-- Generator live UI  -->
 <app-generator-live></app-generator-live>
