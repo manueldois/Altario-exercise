@@ -20,7 +20,7 @@ export class GeneratorPageComponent {
   )
 
   constructor(public signatureService: SignatureService) {
-    this.current_signature$.subscribe(console.log)
+    // this.current_signature$.subscribe(console.log)
   }
 
   onToggleGenerator() {

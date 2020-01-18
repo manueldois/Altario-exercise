@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
-import { map, mapTo, scan, startWith, switchMap, tap } from 'rxjs/operators';
+import { map, mapTo, scan, startWith, switchMap, tap, filter } from 'rxjs/operators';
 
 import { Matrix, Signature, Coords } from '../types';
 
@@ -8,12 +8,9 @@ import { Matrix, Signature, Coords } from '../types';
   providedIn: 'root'
 })
 export class SignatureService {
-
-  refresh_rate = 2000;
+  refresh_rate = 1000;
   matrix_size = {width: 10, height: 10};
-  current_signature$ = new BehaviorSubject<Signature | null>(null)
   generator_running$ = new BehaviorSubject(true);
-  
 
   // Countdown timer observable to next signature refresh
   // Stops if generator not running
@@ -21,11 +18,7 @@ export class SignatureService {
     switchMap(running => running ? interval(20).pipe(
       scan(acc => {
         // End of timer, make a new signature and reset
-        if (acc + 20 > this.refresh_rate) {
-          acc = 0
-          const signature = this.makeSignature(this.matrix_size.width, this.matrix_size.height)
-          this.current_signature$.next(signature)
-        }
+        if (acc + 20 > this.refresh_rate) acc = 0
         return acc + 20
       }, 0),
       map(x => this.refresh_rate - x)
@@ -34,9 +27,14 @@ export class SignatureService {
     ),
   )
 
+  // When timer reaches zero, emmit new signature
+  current_signature$ = this.generator_timer$.pipe(
+    filter(time_left => time_left === 0),
+    map(tick => this.makeSignature(this.matrix_size.width, this.matrix_size.height))
+  )
 
-  constructor() {
-  }
+
+  constructor() { }
 
   makeSignature(width: number, height: number, prefered_char?: string): Signature{
     

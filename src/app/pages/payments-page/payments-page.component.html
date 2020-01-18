@@ -1,6 +1,8 @@
-<app-generator-live></app-generator-live>
+<!-- Generator live UI  -->
+<app-generator-live [live]="(generator_running$ | async)"></app-generator-live>
 
-<app-current-code></app-current-code>
+<!-- Generated code output -->
+<app-current-code [code]="(current_signature$ | async)?.code"></app-current-code>
 
 <form>
     <label class="text">
