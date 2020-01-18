@@ -17,10 +17,10 @@
 <table>
     <tr>
         <td></td>
-        <td *ngFor="let x of coordinates"> {{x}} </td>
+        <td *ngFor="let x of coordinates" class="coordinate"> {{x}} </td>
     </tr>
     <tr *ngFor="let y of coordinates">
-        <td> {{y}} </td>
+        <td class="coordinate"> {{y}} </td>
         <td *ngFor="let entry of matrix[y]" >
             {{entry}}
         </td>

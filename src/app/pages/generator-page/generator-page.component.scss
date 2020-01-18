@@ -43,6 +43,10 @@ table {
     height: 2em;
     td {
       width: 2em;
+
+      &.coordinate {
+        color: $gray1;
+      }
     }
   }
 }
