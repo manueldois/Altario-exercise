@@ -6,7 +6,7 @@ div.top-ui {
   align-items: flex-end;
   margin-top: 20px;
 
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: $breakpoint-small) {
     flex-direction: column;
     align-items: center;
 
@@ -35,11 +35,6 @@ div.top-ui {
   }
 }
 
-h3.live-ui {
-  text-align: right;
-  color: red;
-  text-transform: uppercase;
-}
 
 table {
   width: 100%;
@@ -48,7 +43,7 @@ table {
   tr {
     height: 2em;
     td {
-      border: 1px solid gray;
+      border: 1px solid $gray1;
       width: 2em;
       text-align: center;
     }
@@ -67,7 +62,6 @@ app-generator-live {
   display: block;
   width: fit-content;
   margin-top: 20px;
-
 }
 
 app-current-code {
@@ -75,5 +69,4 @@ app-current-code {
   display: block;
   width: fit-content;
   margin-top: 10px;
-
 }
