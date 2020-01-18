@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, NEVER } from 'rxjs';
 import { map, mapTo, scan, startWith, switchMap, tap } from 'rxjs/operators';
 
-import { Matrix, Signature } from '../signature.interface';
+import { Matrix, Signature, Coords } from '../types';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { Matrix, Signature } from '../signature.interface';
 export class SignatureService {
 
   refresh_rate = 2000;
-  matrix_size = {width: 5, height: 5};
+  matrix_size = {width: 10, height: 10};
   current_signature$ = new BehaviorSubject<Signature | null>(null)
   generator_running$ = new BehaviorSubject(true);
   
@@ -23,10 +23,7 @@ export class SignatureService {
         // End of timer, make a new signature and reset
         if (acc + 20 > this.refresh_rate) {
           acc = 0
-          const signature: Signature = {
-            code: 10,
-            matrix: this.makeMatrix(this.matrix_size.width, this.matrix_size.height)
-          }
+          const signature = this.makeSignature(this.matrix_size.width, this.matrix_size.height)
           this.current_signature$.next(signature)
         }
         return acc + 20
@@ -39,9 +36,46 @@ export class SignatureService {
 
 
   constructor() {
-    console.log('Signature service running')
-    // this.generator_timer$.subscribe(next => console.log(next))
-    this.current_signature$.subscribe(next => console.log(next))
+  }
+
+  makeSignature(width: number, height: number, prefered_char?: string): Signature{
+    
+    const getCodeFromMatrix = (matrix: Matrix): string => {
+      
+      const countOccurrencesInArray = (array: Array<any>, x:any):number => {
+        let count = 0;
+        for (let i = 0; i < array.length; i++) {
+          if(array[i] === x) count++
+        }
+        return count
+      }
+
+      let seconds = new Date().getSeconds().toString().split('')
+      if(seconds.length === 1) seconds.unshift('0')
+      
+      const coords_a: Coords =  {x: parseInt(seconds[0]), y: parseInt(seconds[1])}
+      const coords_b: Coords =  {x: parseInt(seconds[1]), y: parseInt(seconds[0])}
+      
+      const char_a = matrix.getChar(coords_a)
+      const char_b = matrix.getChar(coords_b)
+      
+      const n_occurrences_a = countOccurrencesInArray(matrix.data,char_a)
+      const n_occurrences_b = countOccurrencesInArray(matrix.data,char_b)
+
+      const code_a = n_occurrences_a % 10
+      const code_b = n_occurrences_b % 10
+
+      const code = code_a.toString() + code_b.toString()
+
+      return code
+    }
+    
+    const matrix: Matrix = this.makeMatrix(width, height, prefered_char)
+    const signature: Signature = {
+      matrix,
+      code: getCodeFromMatrix(matrix)
+    }
+    return signature
   }
 
   makeMatrix(width: number, height: number, prefered_char?: string): Matrix {
@@ -79,12 +113,8 @@ export class SignatureService {
 
 
 
-    const matrix: Matrix = {
-      width,
-      height,
-      data: []
-    }
-
+    const matrix = new Matrix ()
+    matrix.width = width; matrix.height = height;
     matrix.data = makeListOfRandomCharsExcludingChar(width * height, prefered_char)
 
     // If there is a prefered char, put it at 20 random indexes in the matrix
