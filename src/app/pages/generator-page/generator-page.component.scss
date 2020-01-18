@@ -62,19 +62,18 @@ hr.pulse-bar-ui {
   background: red;
 }
 
-div.generated-code {
+app-generator-live {
   margin: auto;
-  margin-top: 20px;
-  padding: 10px 20px;
-  // font-size: large;
+  display: block;
   width: fit-content;
-  font-weight: bold;
-  color: gray;
-  text-transform: uppercase;
-  border: 1px solid rgb(70, 70, 70);
-  border-radius: 4px;
+  margin-top: 20px;
 
-  > span {
-    color: black;
-  }
+}
+
+app-current-code {
+  margin: auto;
+  display: block;
+  width: fit-content;
+  margin-top: 10px;
+
 }
