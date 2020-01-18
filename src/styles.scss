@@ -4,7 +4,9 @@
 
 html {
   font-family: "Roboto", sans-serif;
-  box-sizing: border-box;
+  * {
+    box-sizing: border-box;
+  }
 }
 
 body {
@@ -27,68 +29,81 @@ label {
       color: $secondary;
     }
   }
-}
 
-label.text {
-  > input {
-    padding: 7px 20px;
-    border-radius: 4px;
-    border: 1px solid $gray1;
-  }
-
-  &:hover,
-  &:focus-within {
+  &.text {
     > input {
-      border-color: $secondary;
+      width: 100%;
+      padding: 7px 20px;
+      border-radius: 4px;
+      border: 1px solid $gray1;
     }
+  
+    &:hover,
+    &:focus-within {
+      > input {
+        border-color: $secondary;
+      }
+    }
+  
   }
 
+  &.checkbox {
+    display: flex;
+    align-items: center;
+  
+    div.checkbox {
+      margin-left: 7px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid $gray1;
+      border-radius: 4px;
+      position: relative;
+  
+      &:after {
+        content: "";
+        display: none;
+        position: absolute;
+        border: 1.5px solid;
+        border-top: none;
+        border-right: none;
+        width: 60%;
+        height: 30%;
+        transform: rotate(-45deg);
+        bottom: 45%;
+        left: 20%;
+      }
+    }
+  
+    &:hover {
+      > div.checkbox {
+        border-color: $secondary;
+        &::after {
+          border-color: darken($secondary, 10%);
+        }
+      }
+    }
+  
+    > input {
+      display: none;
+      &:checked ~ div.checkbox {
+        background: $primary;
+        &::after {
+          display: block;
+          border-color: white;
+        }
+      }
+    }
+  }
 }
 
-label.checkbox {
-  display: flex;
-  align-items: center;
-
-  div.checkbox {
-    margin-left: 7px;
-    width: 36px;
-    height: 36px;
-    border: 1px solid $gray1;
-    border-radius: 4px;
-    position: relative;
-
-    &:after {
-      content: "";
-      display: none;
-      position: absolute;
-      border: 1.5px solid;
-      border-top: none;
-      border-right: none;
-      width: 60%;
-      height: 30%;
-      transform: rotate(-45deg);
-      bottom: 45%;
-      left: 20%;
-    }
-  }
-
-  &:hover {
-    > div.checkbox {
-      border-color: $secondary;
-      &::after {
-        border-color: darken($secondary, 10%);
-      }
-    }
-  }
-
-  > input {
-    display: none;
-    &:checked ~ div.checkbox {
-      background: $primary;
-      &::after {
-        display: block;
-        border-color: white;
-      }
-    }
-  }
+button {
+  background: $secondary;
+  border: none;
+  text-transform: uppercase;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 7px 15px;
+  letter-spacing: 1px;
+  white-space: nowrap;
 }
