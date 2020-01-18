@@ -10,21 +10,38 @@ import { Matrix, Signature } from '../signature.interface';
 export class SignatureService {
 
   refresh_rate = 2000;
+  matrix_size = {width: 5, height: 5};
   current_signature$ = new BehaviorSubject<Signature | null>(null)
   generator_running$ = new BehaviorSubject(true);
+  
+
+  // Countdown timer observable to next signature refresh
+  // Stops if generator not running
   generator_timer$ = this.generator_running$.pipe(
-    switchMap(running => running ? interval(20) : NEVER),
-    scan((acc, curr) => {
-      if(acc + 20 > this.refresh_rate) acc = 0
-      return acc + 20
-    }, 0),
-    map(x => this.refresh_rate - x)
+    switchMap(running => running ? interval(20).pipe(
+      scan(acc => {
+        // End of timer, make a new signature and reset
+        if (acc + 20 > this.refresh_rate) {
+          acc = 0
+          const signature: Signature = {
+            code: 10,
+            matrix: this.makeMatrix(this.matrix_size.width, this.matrix_size.height)
+          }
+          this.current_signature$.next(signature)
+        }
+        return acc + 20
+      }, 0),
+      map(x => this.refresh_rate - x)
+    )
+      : NEVER
+    ),
   )
 
 
   constructor() {
     console.log('Signature service running')
     // this.generator_timer$.subscribe(next => console.log(next))
+    this.current_signature$.subscribe(next => console.log(next))
   }
 
   makeMatrix(width: number, height: number, prefered_char?: string): Matrix {
