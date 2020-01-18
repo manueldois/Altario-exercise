@@ -1,0 +1,80 @@
+@import "../../../vars.scss";
+
+div.top-ui {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 20px;
+
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+    align-items: center;
+
+    > label {
+        text-align: center;
+    }
+
+    > label.text {
+      > input {
+        width: 100%;
+      }
+    }
+
+    > label.checkbox {
+        margin-top: 15px;
+    }
+  }
+
+  > label.text {
+    > input {
+      max-width: 100px;
+      font-size: larger;
+      text-align: center;
+      text-transform: uppercase;
+    }
+  }
+}
+
+h3.live-ui {
+  text-align: right;
+  color: red;
+  text-transform: uppercase;
+}
+
+table {
+  width: 100%;
+  margin-top: 30px;
+  border-collapse: collapse;
+  tr {
+    height: 2em;
+    td {
+      border: 1px solid gray;
+      width: 2em;
+      text-align: center;
+    }
+  }
+}
+
+hr.pulse-bar-ui {
+  margin-top: 10px;
+  border: none;
+  height: 4px;
+  background: red;
+}
+
+div.generated-code {
+  margin: auto;
+  margin-top: 20px;
+  padding: 10px 20px;
+  // font-size: large;
+  width: fit-content;
+  font-weight: bold;
+  color: gray;
+  text-transform: uppercase;
+  border: 1px solid rgb(70, 70, 70);
+  border-radius: 4px;
+
+  > span {
+    color: black;
+  }
+}

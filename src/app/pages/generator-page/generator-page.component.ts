@@ -6,7 +6,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GeneratorPageComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
+
+  coordinates = [0,1,2,3,4,5,6,7,8,9]
+  matrix = [
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','a'],
+    ['a','b','c','a','b','c','a','b','c','z'],
+  ]
+
 
   ngOnInit() {
   }

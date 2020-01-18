@@ -1,1 +1,38 @@
-<p>generator-page works!</p>
+<!-- Top UI controls -->
+<div class="row top-ui">
+    <label class="text">
+        <p>Character</p>
+        <input type="text">
+    </label>
+    <label class="checkbox">
+        <span>Start Generator</span>
+        <input type="checkbox">
+        <div class="checkbox"></div>
+    </label>
+</div>
+
+<!-- Generator running UI  -->
+<h3 class="live-ui">⬤ Live</h3>
+
+<!-- Signature matrix -->
+<table>
+    <tr>
+        <td></td>
+        <td *ngFor="let x of coordinates"> {{x}} </td>
+    </tr>
+    <tr *ngFor="let y of coordinates">
+        <td> {{y}} </td>
+        <td *ngFor="let entry of matrix[y]" >
+            {{entry}}
+        </td>
+    </tr>
+</table>
+
+<!-- Refresh pulse bar -->
+<hr class="pulse-bar-ui">
+
+<!-- Generated code output -->
+<div class="generated-code">
+    Your code:
+    <span>11</span>
+</div>
