@@ -37,8 +37,12 @@ export class SignatureService {
 
   }
 
-  setPreferedChar(char) {
+  setPreferedChar(char: string) {
     this.prefered_char = char
+  }
+
+  setGeneratorRunning(live: boolean){
+    this.generator_running$.next(live)
   }
 
   makeSignature(width: number, height: number, prefered_char?: string): Signature {

@@ -33,11 +33,10 @@ export class GeneratorPageComponent {
   }
 
   onToggleGenerator() {
-    this.generator_running$.next(!this.generator_running$.value)
+    this.signatureService.setGeneratorRunning(!this.generator_running$.value)
   }
 
   onPreferedCharInput(key){
-    console.log(key)
     key = key.toUpperCase()
     if(this.signatureService.alpha_chars.includes(key)){
       this.prefered_char = key
