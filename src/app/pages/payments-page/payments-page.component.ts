@@ -25,7 +25,6 @@ export class PaymentsPageComponent {
 
 
   constructor(public signatureService: SignatureService, public paymentsService: PaymentsService) {
-    this.payments$.subscribe(console.log)
     this.generator_running$.subscribe(is_running => {
       if(is_running){
         this.new_payment_form.enable()

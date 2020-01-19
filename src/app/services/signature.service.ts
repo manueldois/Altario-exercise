@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, NEVER, Subject } from 'rxjs';
-import { map, mapTo, scan, startWith, switchMap, tap, filter, switchMapTo } from 'rxjs/operators';
+import { BehaviorSubject, interval, NEVER } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 import { Matrix, Signature, Coords } from '../types';
 
@@ -11,22 +11,22 @@ export class SignatureService {
 
   matrix_size = { width: 10, height: 10 };
   generator_interval = 1000; // time to refresh in ms
-  prefered_char: string = ''
-  alpha_chars = ("abcdefghijklmnopqrstuvwxyz").toUpperCase().split("")
-
+  alpha_chars = ("abcdefghijklmnopqrstuvwxyz").toUpperCase().split("") // Chars to use in the matrix
+  
   generator_running$ = new BehaviorSubject(true);
   generator_timer$ = new BehaviorSubject<number | null>(null)
   current_signature$ = new BehaviorSubject<Signature | null>(null)
-
+  
+  prefered_char: string = ''
 
   constructor() {
 
     // Main generator loop
     this.generator_running$.pipe(
-      switchMap(on => on ? interval(20) : NEVER), // If the generator is running, start an interval, else stop everything upcoming
-      map(i => i * 20), // Ellapsed time in ms [0, +inf[
-      map(t => t % this.generator_interval), // Forms a cycle [0, refresh_rate[
-      map(c => this.generator_interval - c) // Time remaining to refresh
+      switchMap(on => on ? interval(20) : NEVER), // If the generator is running, start an interval of 20ms, else stop everything upcoming
+      map(i => i * 20), // interval counts up: 1, 2, 3. Multiplied by the interval time we get ellapsed time in ms [0, +inf[
+      map(t => t % this.generator_interval), // Forms a cycle [0, generator_interval[
+      map(c => this.generator_interval - c) // Time remaining to refresh [0, generator_interval[
     ).subscribe(tl => {
       this.generator_timer$.next(tl) // Put time left to refresh to app wide countdown timer
       if (tl <= 20) { // When the timer reaches the last tick before refresh
@@ -57,21 +57,26 @@ export class SignatureService {
         return count
       }
 
-      let seconds = new Date().getSeconds().toString().split('')
-      if (seconds.length === 1) seconds.unshift('0')
+      let seconds:string[] = new Date().getSeconds().toString().split('') // Seconds with separated digits: 35 => [3,5], 9 => [9]
+      if (seconds.length === 1) seconds.unshift('0') // Unshift zero if seconds have just one char: [9] => [0,9]
 
+      // Coords of the matrix where to look for a char eg: {x: 2, y: 8}
       const coords_a: Coords = { x: parseInt(seconds[0]), y: parseInt(seconds[1]) }
       const coords_b: Coords = { x: parseInt(seconds[1]), y: parseInt(seconds[0]) }
 
-      const char_a = matrix.getChar(coords_a)
+      // The characters from the matrix to use eg: "K"
+      const char_a = matrix.getChar(coords_a) 
       const char_b = matrix.getChar(coords_b)
 
+      // The count of each character eg: "K" => 13
       const n_occurrences_a = countOccurrencesInArray(matrix.data, char_a)
       const n_occurrences_b = countOccurrencesInArray(matrix.data, char_b)
 
+      // Code digit a and b are the count of each character mod 10 eg: 13 => 3
       const code_a = n_occurrences_a % 10
       const code_b = n_occurrences_b % 10
 
+      // The final code as a string eg: a: 3, b: 1 => "31"
       const code = code_a.toString() + code_b.toString()
 
       return code
@@ -86,16 +91,18 @@ export class SignatureService {
   }
 
   makeMatrix(width: number, height: number, prefered_char?: string): Matrix {
+    // Matrix is an object {width, height, data}
+    // Data is a 1D array of chars
 
     // Makes a list of random alphabetic characters. If char_to_exclude is passed, that char will not be in the list
     const makeListOfRandomCharsExcludingChar = (length, char_to_exclude?) => {
-      const matrix = []
+      const list = []
       for (let i = 0; i < length; i++) {
         // Push any character expect the prefered char
         let entry = this.randomAlphaChar(char_to_exclude)
-        matrix.push(entry)
+        list.push(entry)
       }
-      return matrix
+      return list
     }
 
     // Makes a list of 20 different random ints from min to max
@@ -111,9 +118,10 @@ export class SignatureService {
 
     // Makes a clone of the passed array and replaces the specified indexes with the char_to_put
     const putCharInArrayAtIndexes = (array: Array<string>, indexes: Array<number>, char_to_put: string) => {
-      const array_with_char_at_indexes = [...array]
+      const array_with_char_at_indexes = [...array] // Clone so as not to mutate the original
       for (let i = 0; i < indexes.length; i++) {
-        array_with_char_at_indexes[indexes[i]] = char_to_put
+        const index = indexes[i] // Pick an index from the indexes list
+        array_with_char_at_indexes[index] = char_to_put // Put the char at that index in array
       }
       return array_with_char_at_indexes
     }
@@ -144,6 +152,7 @@ export class SignatureService {
   }
 
   randomFloat01() {
+    // Central source for random
     return Math.random()
   }
 

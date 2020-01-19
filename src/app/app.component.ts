@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {SignatureService} from './services/signature.service';
+import { PaymentsService } from './services/payments.service';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +8,8 @@ import {SignatureService} from './services/signature.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'altario-exercise';
-  constructor(public signatureService: SignatureService){
+  title = 'Altario cryptowallet';
 
-  } 
+  // Instanciate both services on startup
+  constructor(public signatureService: SignatureService, public paymentsService: PaymentsService){ } 
 }
