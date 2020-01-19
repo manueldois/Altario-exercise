@@ -17,12 +17,14 @@ export class GeneratorPageComponent {
   current_signature$ = this.signatureService.current_signature$
 
   current_signature: Signature | null = null
-  
+  prefered_char: string = ''
 
   // Size of the refresh bar UI, in %
   refresh_bar_size$ = this.generator_timer$.pipe(
     map(time_left => time_left / this.generator_interval * 100)
   )
+
+
 
   constructor(public signatureService: SignatureService) {
     // Destruct the current_signature observable to a normal variable to render in the DOM
@@ -32,6 +34,15 @@ export class GeneratorPageComponent {
 
   onToggleGenerator() {
     this.generator_running$.next(!this.generator_running$.value)
+  }
+
+  onPreferedCharInput(key){
+    console.log(key)
+    key = key.toUpperCase()
+    if(this.signatureService.alpha_chars.includes(key)){
+      this.prefered_char = key
+      this.signatureService.setPreferedChar(this.prefered_char)
+    }
   }
 
   range(max: number) {
