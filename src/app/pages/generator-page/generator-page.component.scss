@@ -39,14 +39,15 @@ div.top-ui {
 table {
   width: 100%;
   margin-top: 30px;
+  table-layout: fixed;
   tr {
     td {
       height: 2em;
-      width: 2em;
       padding: 0;
 
       &.coordinate {
-        color: $gray1;
+        color: black;
+        font-weight: bold;
       }
     }
   }

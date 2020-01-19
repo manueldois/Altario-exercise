@@ -157,6 +157,9 @@ table {
       border: 1px solid $gray1;
       text-align: center;
     }
+
+    &:nth-child(even) {
+      background-color: whitesmoke;
+    }
   }
 }
-

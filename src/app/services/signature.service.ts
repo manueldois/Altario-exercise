@@ -10,7 +10,7 @@ import { Matrix, Signature, Coords } from '../types';
 export class SignatureService {
 
   matrix_size = { width: 10, height: 10 };
-  generator_interval = 1000; // time to refresh in ms
+  generator_interval = 2000; // time to refresh in ms
   alpha_chars = ("abcdefghijklmnopqrstuvwxyz").toUpperCase().split("") // Chars to use in the matrix
   
   generator_running$ = new BehaviorSubject(true);

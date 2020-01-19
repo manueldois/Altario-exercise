@@ -2,7 +2,8 @@
 <div class="row top-ui">
     <label class="text">
         <p>Character</p>
-        <input #inchar type="text" maxlength="1" (keydown)="onPreferedCharInput($event.key)" [value]="this.prefered_char">
+        <input #in_char type="text" maxlength="1" [value]="this.prefered_char"  >
+        <!-- (keydown)="onPreferedCharInput($event.key)" [value]="this.prefered_char" -->
     </label>
     <label class="checkbox">
         <span>Start Generator</span>
