@@ -8,22 +8,23 @@ import { Matrix, Signature, Coords } from '../types';
   providedIn: 'root'
 })
 export class SignatureService {
-  refresh_rate = 1000;
+  
   matrix_size = {width: 10, height: 10};
-
+  generator_interval = 1000; // time to refresh in ms
+  
   generator_running$ = new BehaviorSubject(true);
   generator_timer$ = new BehaviorSubject<number | null>(null)
   current_signature$ = new BehaviorSubject<Signature | null>(null)
 
 
   constructor() {
-    this.current_signature$.subscribe(console.log)
 
+    // Main generator loop
     this.generator_running$.pipe(
       switchMap(on => on ? interval(20) : NEVER), // If the generator is running, start an interval, else stop everything upcoming
       map(i => i * 20), // Ellapsed time in ms [0, +inf[
-      map(t => t % this.refresh_rate), // Forms a cycle [0, refresh_rate[
-      map(c => this.refresh_rate - c) // Time remaining to refresh
+      map(t => t % this.generator_interval), // Forms a cycle [0, refresh_rate[
+      map(c => this.generator_interval - c) // Time remaining to refresh
     ).subscribe(tl => {
       this.generator_timer$.next(tl) // Put time left to refresh to app wide countdown timer
       if(tl <= 20){ // When the timer reaches the last tick before refresh

@@ -21,7 +21,7 @@
     <tr *ngFor="let y of range(this.matrix_size.height)">
         <td class="coordinate"> {{y}} </td>
         <td *ngFor="let x of range(this.matrix_size.width)" >
-            {{(current_signature$ | async)?.matrix?.data[y * matrix_size.width + x]}}
+            {{current_signature?.matrix?.getChar({x:x,y:y})}}
         </td>
     </tr>
 </table>
