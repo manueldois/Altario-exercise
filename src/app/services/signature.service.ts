@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, interval, NEVER } from 'rxjs';
-import { map, mapTo, scan, startWith, switchMap, tap, filter } from 'rxjs/operators';
+import { BehaviorSubject, interval, NEVER, Subject } from 'rxjs';
+import { map, mapTo, scan, startWith, switchMap, tap, filter, switchMapTo } from 'rxjs/operators';
 
 import { Matrix, Signature, Coords } from '../types';
 
@@ -10,31 +10,29 @@ import { Matrix, Signature, Coords } from '../types';
 export class SignatureService {
   refresh_rate = 1000;
   matrix_size = {width: 10, height: 10};
+
   generator_running$ = new BehaviorSubject(true);
-
-  // Countdown timer observable to next signature refresh
-  // Stops if generator not running
-  generator_timer$ = this.generator_running$.pipe(
-    switchMap(running => running ? interval(20).pipe(
-      scan(acc => {
-        // End of timer, make a new signature and reset
-        if (acc + 20 > this.refresh_rate) acc = 0
-        return acc + 20
-      }, 0),
-      map(x => this.refresh_rate - x)
-    )
-      : NEVER
-    ),
-  )
-
-  // When timer reaches zero, emmit new signature
-  current_signature$ = this.generator_timer$.pipe(
-    filter(time_left => time_left === 0),
-    map(tick => this.makeSignature(this.matrix_size.width, this.matrix_size.height))
-  )
+  generator_timer$ = new BehaviorSubject<number | null>(null)
+  current_signature$ = new BehaviorSubject<Signature | null>(null)
 
 
-  constructor() { }
+  constructor() {
+    this.current_signature$.subscribe(console.log)
+
+    this.generator_running$.pipe(
+      switchMap(on => on ? interval(20) : NEVER), // If the generator is running, start an interval, else stop everything upcoming
+      map(i => i * 20), // Ellapsed time in ms [0, +inf[
+      map(t => t % this.refresh_rate), // Forms a cycle [0, refresh_rate[
+      map(c => this.refresh_rate - c) // Time remaining to refresh
+    ).subscribe(tl => {
+      this.generator_timer$.next(tl) // Put time left to refresh to app wide countdown timer
+      if(tl <= 20){ // When the timer reaches the last tick before refresh
+        const next_signature = this.makeSignature(10,10) // Make a new signature
+        this.current_signature$.next(next_signature) // And put it to app wide current signature subject
+      }
+    })
+    
+  }
 
   makeSignature(width: number, height: number, prefered_char?: string): Signature{
     

@@ -9,10 +9,7 @@ export class PaymentsPageComponent implements OnInit {
   generator_running$ = this.signatureService.generator_running$
   current_signature$ = this.signatureService.current_signature$
 
-
-
   constructor(public signatureService: SignatureService) {
-    console.log('payments page created')
   }
 
   ngOnInit() {
