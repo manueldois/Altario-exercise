@@ -4,6 +4,8 @@
 <!-- Generated code output -->
 <app-current-code [code]="(current_signature$ | async)?.code"></app-current-code>
 
+<p *ngIf="!(this.generator_running$ | async)" class="turn-on-generator">Turn on signature generator to send payments</p>
+
 <form [formGroup]="new_payment_form" (ngSubmit)="onSubmitNewPayment()">
     <label class="text">
         <input type="text" placeholder="Payment" formControlName="payment" id="payment">
