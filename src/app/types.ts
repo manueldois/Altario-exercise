@@ -16,7 +16,6 @@ class Matrix {
     getChar(coords: Coords){
         return this.data[coords.y * this.width + coords.x]
     }
-
 }
 
 interface Signature {
@@ -24,4 +23,10 @@ interface Signature {
     code: string;
 }
 
-export { Matrix, Signature, Coords, Size }
+interface Payment {
+    name: string,
+    amount: number,
+    signature: Signature
+}
+
+export { Matrix, Signature, Coords, Size, Payment }

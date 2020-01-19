@@ -1,4 +1,4 @@
-@import '../../../vars.scss';
+@import "../../../vars.scss";
 
 app-generator-live {
   margin: auto;
@@ -15,45 +15,56 @@ app-current-code {
 }
 
 form {
-    display: flex;
-    margin-top: 20px;
+  display: flex;
+  margin-top: 20px;
+
+  > label {
+    width: 150px;
+    margin-right: 10px;
+  }
+
+  > button {
+    height: fit-content;
+    align-self: flex-start;
+    position: relative;
+    top: 20px;
+    font-size: small;
+    padding: 5px 15px;
+  }
+
+
+  @media screen and (max-width: $breakpoint-small) {
+    flex-direction: column;
 
     > label {
-        width: 150px;
-        margin-right: 10px;
+      width: 100%;
+      margin-right: 0;
+      margin-bottom: 10px;
     }
 
     > button {
-        height: fit-content;
-        align-self: flex-start;
-        position: relative;
-        top: 20px;
-        font-size: small;
-        padding: 5px 15px;
+      align-self: flex-end;
     }
-
-    @media screen and (max-width: $breakpoint-small) {
-        flex-direction: column;
-
-        > label {
-            width: 100%;
-            margin-right: 0;
-            margin-bottom: 10px;
-        }
-
-        > button {
-            align-self: flex-end;
-        }
-    }
+  }
 }
 
-table {
+section.payments {
+  margin-top: 40px;
+  table {
     width: 100%;
     margin-top: 30px;
     tr {
-        > th:first-of-type, td:first-of-type {
-            width: 100%;
-            text-align: left;
-        }
+      > th:first-of-type,
+      td:first-of-type {
+        width: 100%;
+        text-align: left;
+      }
     }
   }
+
+  .no-payments {
+    margin-top: 80px;
+    text-align: center;
+    color: $gray1;
+  }
+}
