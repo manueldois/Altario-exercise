@@ -4,16 +4,19 @@
 <!-- Generated code output -->
 <app-current-code [code]="(current_signature$ | async)?.code"></app-current-code>
 
-<form>
+<form [formGroup]="new_payment_form" (ngSubmit)="onSubmitNewPaymentForm()">
     <label class="text">
+        <input type="text" placeholder="Payment" formControlName="payment" id="payment">
         <p>Payment</p>
-        <input type="text" placeholder="Payment">
+        <p class="error" *ngIf="payment.errors?.required" >Enter a payment reciever reference</p>
     </label>
     <label class="text">
-        <p>Ammount</p>
-        <input type="text" placeholder="Ammount">
+        <input type="number" placeholder="Amount" formControlName="amount">
+        <p>Amount</p>
+        <p class="error" *ngIf="amount.errors?.required" >Enter an amount to send</p>
+        <p class="error" *ngIf="amount.errors?.invalidCurrency" >Invalid currency</p>        
     </label>
-    <button>&#65291; Add</button>
+    <button type="submit" [class.outline]="!new_payment_form.valid" [disabled]="!new_payment_form.valid">&#65291; Add</button>
 </form>
 
 <table>

@@ -32,11 +32,37 @@ label {
   }
 
   &.text {
+    display: flex;
+    flex-direction: column;
+
     > input {
+      order: 2;
       width: 100%;
       padding: 7px 20px;
       border-radius: 4px;
       border: 1px solid $gray1;
+    }
+
+    > p {
+      order: 1;
+
+      &.error {
+        display: none;
+        order: 3;
+        color: red;
+      }
+    }
+
+    > input.ng-invalid.ng-touched {
+      border-color: red;
+
+      & ~ p {
+        color: red;
+      }
+
+      & ~ p.error {
+        display: block;
+      }
     }
 
     &:hover,
@@ -98,7 +124,7 @@ label {
 
 button {
   background: $secondary;
-  border: none;
+  border: 1px solid $secondary;
   text-transform: uppercase;
   color: white;
   font-weight: bold;
@@ -106,6 +132,11 @@ button {
   padding: 7px 15px;
   letter-spacing: 1px;
   white-space: nowrap;
+
+  &.outline {
+    background: none;
+    color: $secondary;
+  }
 }
 
 table {
@@ -128,3 +159,4 @@ table {
     }
   }
 }
+
